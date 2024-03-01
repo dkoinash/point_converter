@@ -47,26 +47,33 @@ public:
   ~Line() = default;
 
   /**
-   * @brief Устанавливает угол в радианах
+   * @brief Устанавливает угловой коэффициент
    *
-   * @param[in] angle Угол в радианах
+   * @param[in] k Угловой коэффициент
    */
-  void SetAngle(double angle);
+  void SetK(double k);
 
   /**
-   * @brief Устанавливает смещение
+   * @brief Устанавливает ординату точки пересечения прямой с осью Y
    *
-   * @param[in] offset Смещение
+   * @param[in] b Ордината точки пересечения прямой с осью Y
    */
-  void SetOffset(double offset);
+  void SetB(double b);
 
   /**
    * @brief Устанавливает параметры прямой
    *
-   * @param[in] angle  Угол в радианах
-   * @param[in] offset Смещение
+   * @param[in] k  Угловой коэффициент
+   * @param[in] b  Ордината точки пересечения прямой с осью Y
    */
-  void SetParameters(double angle, double offset);
+  void SetParameters(double k, double b);
+
+/**
+ * @brief Устанавливает прямую вертикально
+ * 
+ * @param[in] x Координата оси точки пересечения прямой и оси абсцисс
+ */
+  void SetVertical(double x);
 
 /**
  * @brief Получает точку пересечения прямых если она есть
@@ -85,8 +92,12 @@ public:
   Line GetParallelLine(const Point& point);
 
 private:
-  /// Угол между прямой и осью Х
-  double angle = 0;
-  /// Отступ по оси Y
-  double offset = 0;
+  /// Признак  вертикальной прямой
+  bool isVertical = false;
+  /// Значение абсциссы для вертикальной прямой
+  double x = 0.;
+  /// Угловой коэффициент
+  double k = 0.;
+  /// Ордината точки пересечения прямой с осью Y
+  double b = 0.;
 };

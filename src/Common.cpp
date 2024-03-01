@@ -9,39 +9,55 @@ Distance(const Point& a, const Point& b)
 Line::Line(Point aPoint, Point bPoint)
 {
   if (bPoint.x == aPoint.x) {
-    angle = PI / 2;
+    isVertical = true;
+    x = bPoint.x;
     return;
   }
 
-  angle = atan((bPoint.y - aPoint.y) / (bPoint.x - aPoint.x));
-  offset = bPoint.y - tan(angle) * bPoint.x;
+  k = (bPoint.y - aPoint.y) / (bPoint.x - aPoint.x);
+  b = bPoint.y - k * bPoint.x;
 }
 
 void
-Line::SetAngle(double angle)
+Line::SetK(double _k)
 {
-  angle = angle;
+  k = _k;
+  isVertical = false;
 }
 void
-Line::SetOffset(double offset)
+Line::SetB(double _b)
 {
-  offset = offset;
+  b = _b;
+  isVertical = false;
 }
 void
-Line::SetParameters(double angle, double offset)
+Line::SetParameters(double _k, double _b)
 {
-  angle = angle;
-  offset = offset;
+  SetK(_k);
+  SetB(_b);
+}
+void
+Line::SetVertical(double _x)
+{
+  isVertical = true;
+  x = _x;
 }
 
 std::optional<Point>
 Line::Intersection(const Line& other)
 {
-  if (angle == other.angle) return std::nullopt;
+  if (k == other.k) return std::nullopt;
+  if (this->isVertical && other.isVertical) return std::nullopt;
+  if (this->isVertical) {
+    return Point{ this->x, this->x * other.k + other.b };
+  }
+  if (other.isVertical) {
+    return Point{ other.x, other.x * this->k + this->b };
+  }
 
   Point point;
-  point.x = (other.offset - offset) / (tan(angle) - tan(other.angle));
-  point.y = tan(other.angle) * point.x + other.offset;
+  point.x = (other.b - b) / (k - other.k);
+  point.y = other.k * point.x + other.b;
 
   return point;
 }
@@ -50,9 +66,10 @@ Line
 Line::GetParallelLine(const Point& point)
 {
   Line line;
-  if (angle == PI / 2)
-    line.SetAngle(angle);
+  if (isVertical)
+    line.SetVertical(point.x);
   else
-    line.SetParameters(angle, point.y - tan(angle) * point.x);
+    line.SetParameters(k, point.y - k * point.x);
+
   return line;
 }
