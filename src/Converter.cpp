@@ -7,37 +7,7 @@ Converter::CulculateP(const Point aPoint,
                       const Point dPoint,
                       const Point kPoint)
 {
-#if DEPRECATED
-  /// Уравнение прямой через отрезок AB y=k*x+b
-  double kAB = (bPoint.y - aPoint.y) / (bPoint.x - aPoint.x);
-  double bAB = aPoint.y + kAB * aPoint.x;
 
-  /// Уравнение прямой через отрезок BC y=k*x+b
-  double kBC = (cPoint.y - bPoint.y) / (cPoint.x - bPoint.x);
-  double bBC = cPoint.y + kBC * cPoint.x;
-
-  /// Уравнение прямой через отрезок CD y=k*x+b
-  double kCD = (dPoint.y - cPoint.y) / (dPoint.x - cPoint.x);
-  double bCD = dPoint.y + kAB * dPoint.x;
-
-  /// Уравнение прямой через отрезок DA y=k*x+b
-  double kDA = (aPoint.y - dPoint.y) / (aPoint.x - dPoint.x);
-  double bDA = aPoint.y + kDA * aPoint.x;
-
-  /// Точка J пересечения прямых AB и CD
-  Point jPoint;
-  jPoint.x = (bCD - bAB) / (kAB - kCD);
-  jPoint.y = kAB * jPoint.x + bAB;
-
-  /// Уравнение прямой через отрезок JK y=k*x+b
-  double kJK = (jPoint.y - kPoint.y) / (jPoint.x - kPoint.x);
-  double bJK = jPoint.y + kJK * jPoint.x;
-
-  /// Точка F пересечения прямых JK и BC
-  Point fPoint;
-  fPoint.x = (bBC - bJK) / (kJK - kBC);
-  fPoint.y = kJK * jPoint.x + bJK;
-#endif // DEPRECATED
   double resultX;
   double resultY;
   /// Уравнение прямой через отрезок AB y=k*x+b
@@ -57,7 +27,7 @@ Converter::CulculateP(const Point aPoint,
     lGK = Line(gPoint, kPoint);
   } else {
     // BC и DA параллельны => GK || BC
-    lGK = Line(lBC.GetParallelLine(kPoint));
+    lGK = lBC.GetParallelLine(kPoint);
   }
 
   /// Точка H пересечения прямых GK и AB
