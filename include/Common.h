@@ -68,6 +68,12 @@ public:
    */
   void SetParameters(double angle, double offset);
 
+/**
+ * @brief Получает точку пересечения прямых если она есть
+ * 
+ * @param[in] other Пересекаемая прямая
+ * @return Возвращает точку пересечения прямых если она есть
+ */
   std::optional<Point> Intersection(const Line& other);
 
   /**
