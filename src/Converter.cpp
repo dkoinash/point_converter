@@ -64,20 +64,20 @@ Converter::CulculateP(const Point aPoint,
   }
 
   /// Точка F пересечения прямых JK и BC
-  if (lBC.Intersection(lJK)) {
-    Point fPoint = lBC.Intersection(lJK).value();
+  if (lDA.Intersection(lJK)) {
+    Point fPoint = lDA.Intersection(lJK).value();
 
-    /// Длина отрезка BC
-    double distBC = Distance(bPoint, cPoint);
+    /// Длина отрезка DA
+    double distDA = Distance(aPoint, dPoint);
     /// Длина отрезка BF
-    double distBF = Distance(bPoint, fPoint);
+    double distAF = Distance(aPoint, fPoint);
 
     ///! Значение отностительной координаты по оси Y
 
-    if (distBC == 0.0)
+    if (distDA == 0.0)
       resultY = 0.0; // FixMe уточнить
     else
-      resultY = distBF / distBC;
+      resultY = distAF / distDA;
 
   } else {
     // FixMe Что если ошибка и все точки на одной прямой?
